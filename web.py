@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import csv
 
 
 URL = [
@@ -8,7 +9,14 @@ URL = [
         'https://www.linkedin.com/jobs/search?keywords=python&location=Netherlands&geoId=102890719&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0',
         'https://www.linkedin.com/jobs/search?keywords=Python&location=United%20States&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
         'https://www.linkedin.com/jobs/search?keywords=Python&location=South%20Korea&geoId=105149562&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=chile&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=United%20Kingdom&geoId=101165590&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=Finland&geoId=100456013&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=Sweden&geoId=105117694&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=germany&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=Python&location=Denmark&geoId=104514075&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
         ]
+
 
 def scrap():
     for i in URL:
@@ -25,8 +33,6 @@ def scrap():
             country = job.find("span", class_="results-context-header__query-search")
             new_jobs = job.find("span", class_="results-context-header__new-jobs")
             print(jobs.text.strip()[:-1], country.text.strip(), new_jobs.text.strip())
-
-        # os.system('python3 web.py > counter.cvc')
 
 
 if __name__ == "__main__":
