@@ -1,7 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-import os
 import csv
+from datetime import date
+
+
+# TODO: Make dicts and lists to deal more countries and iterate only one URL, it would be more readable.
+COUNTRIES = []
+COUNTRIES_GEOLOC = {''}
 
 
 URL = [
@@ -19,6 +24,7 @@ URL = [
 
 
 def scrap():
+    today = date.today()
     for i in URL:
         page = requests.get(i)
 
@@ -33,6 +39,18 @@ def scrap():
             country = job.find("span", class_="results-context-header__query-search")
             new_jobs = job.find("span", class_="results-context-header__new-jobs")
             print(jobs.text.strip()[:-1], country.text.strip(), new_jobs.text.strip())
+
+            # FIXME: Csv writer is appending ^M in eof, look for a way to grep and remove it.
+            with open('/home/scardenasb/workspace/web-scrapper-in/counter.csv', 'w', encoding='UTF8') as f:
+                writer = csv.writer(f)
+
+                writer.writerow(jobs) 
+                writer.writerow(country) 
+                writer.writerow(new_jobs)
+
+    print('----------------------------------------------')
+    print('DATE: ', today)
+    print('-----')
 
 
 if __name__ == "__main__":

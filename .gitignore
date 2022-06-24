@@ -1,2 +1,4 @@
 .venv/
 counter.csv
+counter.txt
+env
