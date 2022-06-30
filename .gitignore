@@ -1,4 +1,7 @@
+.git
 .venv/
+.env
+/src/__pycache__/*
+/src/database.ini
 counter.csv
 counter.txt
-env

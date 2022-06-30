@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
 from datetime import date
 
 
@@ -11,7 +10,7 @@ COUNTRIES_GEOLOC = {''}
 
 URL = [
         'https://www.linkedin.com/jobs/search?keywords=Python&location=Japan&geoId=101355337&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
-        'https://www.linkedin.com/jobs/search?keywords=python&location=Netherlands&geoId=102890719&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0',
+        'https://www.linkedin.com/jobs/search?keywords=python&location=Netherlands&geoId=102890719&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
         'https://www.linkedin.com/jobs/search?keywords=Python&location=United%20States&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
         'https://www.linkedin.com/jobs/search?keywords=Python&location=South%20Korea&geoId=105149562&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
         'https://www.linkedin.com/jobs/search?keywords=Python&location=chile&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0',
@@ -25,6 +24,7 @@ URL = [
 
 def scrap():
     today = date.today()
+    objects = {'jobs': [], 'country': [], 'new_jobs': [], 'date': []}
     for i in URL:
         page = requests.get(i)
 
@@ -38,19 +38,19 @@ def scrap():
             jobs = job.find("span", class_="results-context-header__job-count")
             country = job.find("span", class_="results-context-header__query-search")
             new_jobs = job.find("span", class_="results-context-header__new-jobs")
-            print(jobs.text.strip()[:-1], country.text.strip(), new_jobs.text.strip())
 
-            # FIXME: Csv writer is appending ^M in eof, look for a way to grep and remove it.
-            with open('/home/scardenasb/workspace/web-scrapper-in/counter.csv', 'w', encoding='UTF8') as f:
-                writer = csv.writer(f)
+            jobs = int((jobs.text.strip()[:-1]).replace(',', ''))
+            country = str(country.text.strip())[15:]
+            new_jobs = str(new_jobs.text.strip()).replace(',', '')
+            new_jobs = int(new_jobs[1:new_jobs.index('n')])
+            today = str(today)
 
-                writer.writerow(jobs) 
-                writer.writerow(country) 
-                writer.writerow(new_jobs)
+            objects['jobs'].append(jobs)
+            objects['country'].append(country)
+            objects['new_jobs'].append(new_jobs)
+            objects['date'].append(today)
 
-    print('----------------------------------------------')
-    print('DATE: ', today)
-    print('-----')
+    return(objects)
 
 
 if __name__ == "__main__":
