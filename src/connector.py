@@ -21,7 +21,7 @@ def createTable():
         print(f"[+] Table {table} created correctly!\n")
     except psycopg2.Error as e:
         print(f"[x] It was not possible to create the table {table}")
-        print(e+"\n")
+        print(e + "\n")
 
     cursor.close()
 
@@ -34,7 +34,12 @@ def insertData(data):
     print("[*] Inserting data ...")
     try:
         for i in range(10):
-            param = (data['jobs'][i], data['country'][i], data['new_jobs'][i], data['date'][i])
+            param = (
+                data["jobs"][i],
+                data["country"][i],
+                data["new_jobs"][i],
+                data["date"][i],
+            )
             cursor.execute(query, param)
         print("[+] Data was inserted correctly!")
     except psycopg2.Error as e:
