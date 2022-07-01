@@ -21,7 +21,7 @@ def createTable():
         print(f"[+] Table {table} created correctly!\n")
     except psycopg2.Error as e:
         print(f"[x] It was not possible to create the table {table}")
-        print(e + "\n")
+        print(e)
 
     cursor.close()
 
