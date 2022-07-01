@@ -2,7 +2,7 @@
 >
 <br></br>
 ### Description
-> A Python3 web scrapper made with [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) includes a full integration with Postgresql, so every time the app is executed it sends the data parsed to the related sqlDB. Just need to create a ```database.ini``` file with this format:
+> A Python3 web scrapper made with [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), includes a full integration with Postgresql, so every time the app is executed it sends the parsed data to the related sqlDB. Just need to create a ```database.ini``` file with this format:
 ```ini
 [postgresql]
 host=yourhost
