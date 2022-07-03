@@ -2,7 +2,7 @@
 >
 <br></br>
 ### Description
-> A Python3 web scrapper made with [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), includes a full integration with Postgresql, so every time the app is executed it sends the parsed data to the related sqlDB. Just need to create a ```database.ini``` file with this format:
+> A Python3 based web scrapper made with [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), includes a full integration with Postgresql using [Psycopg2](https://www.psycopg.org/) and a [Heroku scheduler add-on](https://devcenter.heroku.com/articles/scheduler#:~:text=Scheduler%20is%20a%20free%20add,is%20expected%20but%20not%20guaranteed.), so every day the app is executed and sends the parsed data to the related sqlDB. It is only necessary to create a ```database.ini``` file with this format:
 ```ini
 [postgresql]
 host=yourhost
