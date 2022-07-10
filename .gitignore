@@ -1,4 +1,5 @@
 .git
 .venv/
 .env
+/src/database.ini
 /src/__pycache__/*

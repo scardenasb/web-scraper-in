@@ -1,19 +1,35 @@
 import psycopg2
-from config import config
+import os
+
+# from config import config
 from app import scrap
+from urllib.parse import urlparse
 
 
-def connect():
-    params = config()
-    connection = psycopg2.connect(**params)
-    connection.autocommit = True
-    return connection
+# NOTE: New connection method, for more safety.
+result = urlparse(os.environ.get("DATABASE_URL"))
+username = result.username
+password = result.password
+database = result.path[1:]
+hostname = result.hostname
+port = result.port
+connection = psycopg2.connect(
+    database=database, user=username, password=password, host=hostname, port=port
+)
+
+connection.autocommit = True
+
+
+# def connect():
+#     params = config()
+#     connection = psycopg2.connect(**params)
+#     connection.autocommit = True
+#     return connection
 
 
 def createTable():
-    conn = connect()
+    cursor = connection.cursor()
     table = "linkedin_jobs"
-    cursor = conn.cursor()
     query = f"""CREATE TABLE {table}(jobs int, country VARCHAR(40), new_jobs INT, date VARCHAR(12))"""
     try:
         print("[*] Creating table ...")
@@ -27,8 +43,7 @@ def createTable():
 
 
 def insertData(data):
-    conn = connect()
-    cursor = conn.cursor()
+    cursor = connection.cursor()
     table = "linkedin_jobs"
     query = f"""INSERT INTO {table}(jobs, country, new_jobs, date) VALUES (%s, %s, %s, %s)"""
     print("[*] Inserting data ...")
@@ -50,8 +65,7 @@ def insertData(data):
 
 
 def dropTable():
-    conn = connect()
-    cursor = conn.cursor()
+    cursor = connection.cursor()
     table = "linkedin_jobs"
     query = f"""DROP TABLE {table}"""
     cursor.execute(query)
