@@ -3,23 +3,40 @@ from bs4 import BeautifulSoup
 from datetime import date
 
 
-# TODO: Make dicts and lists to deal more countries and iterate only one URL, it would be more readable.
-COUNTRIES = []
-COUNTRIES_GEOLOC = {""}
-
-
-URL = [
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=Japan&geoId=101355337&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=python&location=Netherlands&geoId=102890719&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=United%20States&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=South%20Korea&geoId=105149562&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=chile&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=United%20Kingdom&geoId=101165590&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=Finland&geoId=100456013&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=Sweden&geoId=105117694&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=germany&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=Python&location=Denmark&geoId=104514075&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0",
+LOCATION_NAMES = [
+    "Japan",
+    "Netherlands",
+    "United%20States",
+    "South%20Korea",
+    "Chile",
+    "United%20Kingdom",
+    "Finland",
+    "Sweden",
+    "Germany",
+    "Denmark",
+    "Scotland",
+    "Estonia",
+    "Canada",
+    "Brazil",
+    "China",
+    "Taiwan",
+    "France",
+    "Spain",
+    "Portugal",
+    "Italy",
+    "Luxembourg",
+    "Switzerland",
+    "Ireland",
 ]
+
+
+URL = []
+url_filler = ""
+
+# NOTE: The query seems to only need the location name, geoId is optional and can be set to "".
+for i in LOCATION_NAMES:
+    url_filler = f"https://www.linkedin.com/jobs/search?keywords=Python&location={i}&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0"
+    URL.append(url_filler)
 
 
 def scrap():
