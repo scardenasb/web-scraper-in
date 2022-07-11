@@ -7,7 +7,8 @@ from urllib.parse import urlparse
 
 
 # NOTE: New connection method, for more safety.
-result = urlparse(os.environ.get("DATABASE_URL"))
+DATABASE_URL = os.environ.get("DATABASE_URL")
+result = urlparse(DATABASE_URL)
 username = result.username
 password = result.password
 database = result.path[1:]
@@ -18,7 +19,6 @@ connection = psycopg2.connect(
 )
 
 connection.autocommit = True
-
 
 # def connect():
 #     params = config()
@@ -76,4 +76,4 @@ def dropTable():
 if __name__ == "__main__":
     createTable()
     insertData(scrap())
-    # dropTable()
+# dropTable()

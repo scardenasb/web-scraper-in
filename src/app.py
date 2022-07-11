@@ -41,15 +41,16 @@ for i in LOCATION_NAMES:
 
 def scrap():
     today = date.today()
-    objects = {"jobs": [], "country": [], "new_jobs": [], "date": []}
+    object = {"jobs": [], "country": [], "new_jobs": [], "date": []}
     for i in URL:
         page = requests.get(i)
 
         soup = BeautifulSoup(page.content, "html.parser")
 
-        results = soup.find(class_="results-context-header")
+        results = soup.find("div", class_="results-context-header")
 
         python_jobs = results.find_all("h1", class_="results-context-header__context")
+        print(python_jobs)
 
         for job in python_jobs:
             jobs = job.find("span", class_="results-context-header__job-count")
@@ -62,12 +63,13 @@ def scrap():
             new_jobs = int(new_jobs[1 : new_jobs.index("n")])
             today = str(today)
 
-            objects["jobs"].append(jobs)
-            objects["country"].append(country)
-            objects["new_jobs"].append(new_jobs)
-            objects["date"].append(today)
+            object["jobs"].append(jobs)
+            object["country"].append(country)
+            object["new_jobs"].append(new_jobs)
+            object["date"].append(today)
 
-    return objects
+    print(object)
+    return object
 
 
 if __name__ == "__main__":
