@@ -48,7 +48,7 @@ def insertData(data):
     query = f"""INSERT INTO {table}(jobs, country, new_jobs, date) VALUES (%s, %s, %s, %s)"""
     print("[*] Inserting data ...")
     try:
-        for i in range(10):
+        for i in range(24):
             param = (
                 data["jobs"][i],
                 data["country"][i],
