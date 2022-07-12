@@ -1,15 +1,8 @@
 # Web scrapper to look for Linkedin python jobs in different countries.
 
 ### Description
-> A Python3 based web scrapper made with [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), includes a full integration with Postgresql using [Psycopg2](https://www.psycopg.org/) and a [Heroku scheduler add-on](https://devcenter.heroku.com/articles/scheduler#:~:text=Scheduler%20is%20a%20free%20add,is%20expected%20but%20not%20guaranteed.), so every day the app is executed and sends the parsed data to the related sqlDB. It is only necessary to create a ```database.ini``` file with this format:
-```ini
-[postgresql]
-host=yourhost
-user=yourdbuser
-password=yourdbpassword
-database=yourdbname
-port=yourdbport
-```
+> A Python3 based web scrapper made with [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), includes a full integration with Postgresql using [Psycopg2](https://www.psycopg.org/) and a [Heroku scheduler add-on](https://devcenter.heroku.com/articles/scheduler#:~:text=Scheduler%20is%20a%20free%20add,is%20expected%20but%20not%20guaranteed.), so every day the app is executed and sends the parsed data to the related sqlDB. It is only necessary to create env vars with the DATABASE_URL, LinkedIn USER, and LinkedIn PASSWORD. urllib will parse the url and extract authentication data.
+
 <br></br>
 
 ### Format of the main function
