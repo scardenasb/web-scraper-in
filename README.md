@@ -5,7 +5,7 @@
 
 <br></br>
 
-### Format of the main function
+### Output of the main function
 > ![image](https://user-images.githubusercontent.com/84429399/178416417-d43bbd71-f13d-421d-9c10-c540553eff7e.png)
 
 <br></br>
