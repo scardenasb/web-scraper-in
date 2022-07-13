@@ -20,12 +20,6 @@ connection = psycopg2.connect(
 
 connection.autocommit = True
 
-# def connect():
-#     params = config()
-#     connection = psycopg2.connect(**params)
-#     connection.autocommit = True
-#     return connection
-
 
 def createTable():
     cursor = connection.cursor()

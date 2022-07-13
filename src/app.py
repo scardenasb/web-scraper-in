@@ -36,7 +36,6 @@ LOCATION_NAMES = {
 URL = []
 url_filler = ""
 
-# NOTE: The query seems to only need the location name, geoId is optional and can be set to "".
 for key in LOCATION_NAMES:
     url_filler = f"https://www.linkedin.com/jobs/search?keywords=Python&location={key}&geoId={LOCATION_NAMES[key]}&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0"
     URL.append(url_filler)
@@ -45,42 +44,54 @@ for key in LOCATION_NAMES:
 def scrap():
     today = date.today()
     object = {"jobs": [], "country": [], "new_jobs": [], "date": []}
-    try:
-        authentication = requests.get(
-            "https://www.linkedin.com/login/user,",
-            auth=HTTPBasicAuth(os.environ.get("USER"), os.environ.get("PASSWORD")),
-        )
-        print("try:", authentication)
-    except:
-        pass
+    authentication = requests.get(
+        "https://www.linkedin.com/login/user,",
+        auth=HTTPBasicAuth(os.environ.get("USER"), os.environ.get("PASSWORD")),
+    )
+    # print("http response:", authentication)
 
-    for i in URL:
+    # NOTE: This while loop is to try the necessary times to scrape all the URLs. Sometimes it seems to receive the wrong http response in random countries.
+    #       This while True + Try, doesn't reach an infinity loop, but it will take like 2 or 3 tries to do it completely.
+    while True:
+        try:
+            for i in URL:
+                page = requests.get(i)
 
-        page = requests.get(i)
+                soup = BeautifulSoup(page.content, "html.parser")
 
-        soup = BeautifulSoup(page.content, "html.parser")
+                results = soup.find(class_="results-context-header")
 
-        results = soup.find(class_="results-context-header")
+                python_jobs = results.find_all(
+                    "h1", class_="results-context-header__context"
+                )
 
-        python_jobs = results.find_all("h1", class_="results-context-header__context")
+                for job in python_jobs:
+                    jobs = job.find("span", class_="results-context-header__job-count")
+                    country = job.find(
+                        "span", class_="results-context-header__query-search"
+                    )
+                    new_jobs = job.find(
+                        "span", class_="results-context-header__new-jobs"
+                    )
 
-        for job in python_jobs:
-            jobs = job.find("span", class_="results-context-header__job-count")
-            country = job.find("span", class_="results-context-header__query-search")
-            new_jobs = job.find("span", class_="results-context-header__new-jobs")
+                    jobs = int((jobs.text.strip()[:-1]).replace(",", ""))
+                    country = str(country.text.strip())[15:]
+                    new_jobs = str(new_jobs.text.strip()).replace(",", "")
+                    new_jobs = int(new_jobs[1 : new_jobs.index("n")])
+                    today = str(today)
 
-            jobs = int((jobs.text.strip()[:-1]).replace(",", ""))
-            country = str(country.text.strip())[15:]
-            new_jobs = str(new_jobs.text.strip()).replace(",", "")
-            new_jobs = int(new_jobs[1 : new_jobs.index("n")])
-            today = str(today)
+                    object["jobs"].append(jobs)
+                    object["country"].append(country)
+                    object["new_jobs"].append(new_jobs)
+                    object["date"].append(today)
+            break
 
-            object["jobs"].append(jobs)
-            object["country"].append(country)
-            object["new_jobs"].append(new_jobs)
-            object["date"].append(today)
+        # NOTE: Shouldn't reach here
+        except ValueError:
+            print("Error")
 
-    return object
+        finally:
+            return object
 
 
 if __name__ == "__main__":
