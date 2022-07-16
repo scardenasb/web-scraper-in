@@ -41,33 +41,35 @@ def insertData(data):
     table = "linkedin_jobs"
     query = f"""INSERT INTO {table}(jobs, country, new_jobs, date) VALUES (%s, %s, %s, %s)"""
     print("[*] Inserting data ...")
-    try:
-        for i in range(24):
-            param = (
-                data["jobs"][i],
-                data["country"][i],
-                data["new_jobs"][i],
-                data["date"][i],
-            )
-            cursor.execute(query, param)
-        print("[+] Data was inserted correctly!")
-    except psycopg2.Error as e:
-        print("[x] An error has ocurred while inserting data.")
-        print(e)
+    while True:
+        try:
+            for i in range(24):
+                param = (
+                    data["jobs"][i],
+                    data["country"][i],
+                    data["new_jobs"][i],
+                    data["date"][i],
+                )
+                cursor.execute(query, param)
+            print("[+] Data was inserted correctly!")
+            break
+        except psycopg2.Error as e:
+            print("[x] An error has ocurred while inserting data.")
+            print(e)
+        finally:
+            cursor.close()
 
-    cursor.close()
 
-
-def dropTable():
-    cursor = connection.cursor()
-    table = "linkedin_jobs"
-    query = f"""DROP TABLE {table}"""
-    cursor.execute(query)
-    print(f"[+] Table {table} has been deleted.")
-    cursor.close()
+# def dropTable():
+#     cursor = connection.cursor()
+#     table = "linkedin_jobs"
+#     query = f"""DROP TABLE {table}"""
+#     cursor.execute(query)
+#     print(f"[+] Table {table} has been deleted.")
+#     cursor.close()
 
 
 if __name__ == "__main__":
     createTable()
     insertData(scrap())
-# dropTable()
+    # dropTable()
